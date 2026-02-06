@@ -1,76 +1,160 @@
+
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <title>Întrebare 💖</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<title>Surpriză ✨</title>
 
-    .container {
-      text-align: center;
-      position: relative;
-    }
+<style>
+*{
+    box-sizing:border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
 
-    h1 {
-      margin-bottom: 40px;
-      color: #fff;
-    }
+body{
+    margin:0;
+    height:100vh;
+    background:
+        radial-gradient(circle at top, #2b0033, #05010a);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+}
 
-    button {
-      font-size: 18px;
-      padding: 12px 30px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      margin: 10px;
-    }
+/* TITLU */
+h1{
+    position:absolute;
+    top:40px;
+    font-size:3rem;
+    text-shadow:0 0 25px #ff00ff;
+}
 
-    #da {
-      background-color: #4CAF50;
-      color: white;
-    }
+/* CONTAINER BUTOANE */
+.buttons{
+    position:relative;
+    width:420px;
+    height:220px;
+}
 
-    #nu {
-      background-color: #f44336;
-      color: white;
-      position: absolute;
-    }
-  </style>
+/* BUTOANE */
+button{
+    position:absolute;
+    padding:16px 34px;
+    font-size:1.4rem;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    transition:all .2s ease;
+}
+
+/* DA */
+#yes{
+    background:linear-gradient(135deg,#00ffd5,#00ff88);
+    box-shadow:0 0 25px #00ffd5;
+    left:50%;
+    top:60%;
+    transform:translate(-50%,-50%);
+}
+
+/* NU */
+#no{
+    background:linear-gradient(135deg,#ff004c,#ff4477);
+    box-shadow:0 0 25px #ff004c;
+    left:15%;
+    top:60%;
+}
+
+/* SHAPE BLURAT */
+.blur-shape{
+    position:absolute;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 30% 30%,
+        rgba(255,0,255,.9),
+        rgba(255,0,255,.4),
+        rgba(255,0,255,.1));
+    filter: blur(18px);
+    opacity:.9;
+    animation: floatUp 3s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0) scale(1);}
+    to{transform:translateY(-180px) scale(1.3); opacity:0;}
+}
+
+/* FINAL */
+.final{
+    position:absolute;
+    font-size:3rem;
+    text-align:center;
+    text-shadow:0 0 30px #ff00ff;
+    animation:pop .6s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(0);}
+    to{transform:scale(1);}
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>Vrei să fii iubita mea? 💖</h1>
-    <button id="da">DA</button>
-    <button id="nu">NU</button>
-  </div>
+<h1>Doru, vrei surpriza? 😏</h1>
 
-  <script>
-    const butonNu = document.getElementById("nu");
+<div class="buttons">
+    <button id="no">NU</button>
+    <button id="yes">DA</button>
+</div>
 
-    butonNu.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 60);
-      butonNu.style.left = x + "px";
-      butonNu.style.top = y + "px";
-    });
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+let scale = 1;
 
-    document.getElementById("da").addEventListener("click", () => {
-      document.body.innerHTML = `
-        <h1 style="color:white; font-size:40px;">
-          Felicitări 🎉💘
-        </h1>
-      `;
-    });
-  </script>
+/* NU fuge + DA crește + apar shape-uri */
+noBtn.addEventListener("mouseenter",()=>{
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 120);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    scale += 0.12;
+    yesBtn.style.transform =
+        `translate(-50%,-50%) scale(${scale})`;
+
+    spawnShape();
+});
+
+function spawnShape(){
+    const s = document.createElement("div");
+    s.className="blur-shape";
+    s.style.left = Math.random()*window.innerWidth+"px";
+    s.style.top  = Math.random()*window.innerHeight+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),3000);
+}
+
+/* FINAL */
+yesBtn.addEventListener("click",()=>{
+    document.body.innerHTML="";
+    const msg=document.createElement("div");
+    msg.className="final";
+    msg.innerText="Ne-sătul mai ești 😈\nIa-le pe toate!";
+    document.body.appendChild(msg);
+
+    setInterval(()=>{
+        spawnShape();
+    },120);
+});
+</script>
 
 </body>
 </html>
+
