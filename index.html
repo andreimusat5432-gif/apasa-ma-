@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -7,15 +6,14 @@
 
 <style>
 *{
-    box-sizing:border-box;
+    box-sizing: border-box;
     font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 body{
     margin:0;
     height:100vh;
-    background:
-        radial-gradient(circle at top, #2b0033, #05010a);
+    background: radial-gradient(circle at top, #2b0033, #05010a);
     overflow:hidden;
     display:flex;
     align-items:center;
@@ -66,21 +64,13 @@ button{
     top:60%;
 }
 
-/* SHAPE BLURAT */
-.blur-shape{
+/* EMOJI */
+.emoji-shape{
     position:absolute;
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    background:
-        radial-gradient(circle at 30% 30%,
-        rgba(255,0,255,.9),
-        rgba(255,0,255,.4),
-        rgba(255,0,255,.1));
-    filter: blur(18px);
-    opacity:.9;
+    font-size:2.8rem;
     animation: floatUp 3s linear forwards;
     pointer-events:none;
+    user-select:none;
 }
 
 @keyframes floatUp{
@@ -95,6 +85,7 @@ button{
     text-align:center;
     text-shadow:0 0 30px #ff00ff;
     animation:pop .6s ease;
+    white-space:pre-line;
 }
 
 @keyframes pop{
@@ -118,7 +109,9 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 let scale = 1;
 
-/* NU fuge + DA crește + apar shape-uri */
+const emojis = ["🍌","🍆"];
+
+/* NU fuge + DA crește + emoji apar */
 noBtn.addEventListener("mouseenter",()=>{
     const x = Math.random() * (window.innerWidth - 120);
     const y = Math.random() * (window.innerHeight - 120);
@@ -129,16 +122,17 @@ noBtn.addEventListener("mouseenter",()=>{
     yesBtn.style.transform =
         `translate(-50%,-50%) scale(${scale})`;
 
-    spawnShape();
+    spawnEmoji();
 });
 
-function spawnShape(){
-    const s = document.createElement("div");
-    s.className="blur-shape";
-    s.style.left = Math.random()*window.innerWidth+"px";
-    s.style.top  = Math.random()*window.innerHeight+"px";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),3000);
+function spawnEmoji(){
+    const e = document.createElement("div");
+    e.className = "emoji-shape";
+    e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    e.style.left = Math.random() * window.innerWidth + "px";
+    e.style.top  = Math.random() * window.innerHeight + "px";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),3000);
 }
 
 /* FINAL */
@@ -150,11 +144,10 @@ yesBtn.addEventListener("click",()=>{
     document.body.appendChild(msg);
 
     setInterval(()=>{
-        spawnShape();
+        spawnEmoji();
     },120);
 });
 </script>
 
 </body>
 </html>
-
